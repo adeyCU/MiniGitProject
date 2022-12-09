@@ -19,7 +19,6 @@ void displayMenu()
     cout << " 5. checkout" << endl;
     cout << " 6. search" << endl;
     cout << " 7. quit " << endl;
-    cout << " 8. test print" << endl;
     cout << "+-----------------------+" << endl;
     cout << "#> ";
 }
@@ -78,9 +77,6 @@ int main(int argc, char* argv[]) {
             }case 7:{
                 cout << "Goodbye!" << endl;
                 return 0;
-                break;
-            }case 8:{
-                minigit.printSearchTable();
                 break;
             }default:
                 break;

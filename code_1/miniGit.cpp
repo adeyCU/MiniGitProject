@@ -14,6 +14,8 @@ namespace fs = std::filesystem;
 MiniGit::MiniGit() {
     fs::remove_all(".minigit");
     fs::create_directory(".minigit");
+    fs::remove_all("Dump");
+    fs::create_directory("Dump");
 }
 
 MiniGit::~MiniGit() {   
@@ -50,7 +52,7 @@ void MiniGit::init(int hashtablesize) {
 
 void MiniGit::add(string fileName) {
    if(recentCommit){
-       if(fs::exists(fileName)){
+       if(fs::exists("FilesGoHere/"+fileName)){
            BranchNode* latest = commitHead;
            while(latest->next != NULL)
                latest = latest->next;
@@ -68,7 +70,8 @@ void MiniGit::add(string fileName) {
                    newNode->next = NULL;
                    prev->next = newNode;
                    while(fs::exists(".minigit/"+newNode->name+"_"+to_string(newNode->version))) {
-                       fstream file1(fileName), file2(".minigit/"+newNode->name+"_"+to_string(newNode->version));
+                       fstream file1("FilesGoHere/"+fileName);
+                       fstream file2(".minigit/"+newNode->name+"_"+to_string(newNode->version));
                        char string1[256], string2[256];
                        while(!file1.eof()) {
                            file1.getline(string1,256);
@@ -84,7 +87,8 @@ void MiniGit::add(string fileName) {
                    cout << "File added." << endl;
            } else {
                    if(fs::exists(".minigit/"+fileName+"_"+to_string(temp->version))) {
-                       fstream file1(fileName), file2(".minigit/"+fileName+"_"+to_string(temp->version));
+                       fstream file1("FilesGoHere/"+fileName);
+                       fstream file2(".minigit/"+fileName+"_"+to_string(temp->version));
                        char string1[256], string2[256];
                        while(!file1.eof()) {
                            file1.getline(string1,256);
@@ -107,7 +111,8 @@ void MiniGit::add(string fileName) {
                newNode->next = NULL;
                latest->fileHead = newNode;
                while(fs::exists(".minigit/"+newNode->name+"_"+to_string(newNode->version))) {
-                   fstream file1(fileName), file2(".minigit/"+newNode->name+"_"+to_string(newNode->version));
+                   fstream file1("FilesGoHere/"+fileName);
+                   fstream file2(".minigit/"+newNode->name+"_"+to_string(newNode->version));
                    char string1[256], string2[256];
                    while(!file1.eof()) {
                        file1.getline(string1,256);
@@ -120,13 +125,13 @@ void MiniGit::add(string fileName) {
                    }
                    break;
                }
-               cout << "File added already." << endl;
+               cout << "File added." << endl;
            }
    } else {
            cout << "Enter a file that exists." << endl;
        }
    } else {
-       cout << "Please switch to the latest commit" << endl;
+       cout << "Switch to the latest commit" << endl;
    }
 }
 
@@ -152,7 +157,7 @@ void MiniGit::rm(string fileName) {
             temp = NULL;
         }
     } else {
-        cout << "Please switch to the latest commit" << endl;
+        cout << "Switch to the latest commit" << endl;
     }
 }
 
@@ -168,9 +173,8 @@ void MiniGit::search(string key) {
     if (temp != NULL) {
         cout << "Commit #s with key(" << key << ") are ";
         for(int i = 0; i < temp->commitNums.size(); i++) {
-            cout << temp->commitNums.at(i);
+            cout << temp->commitNums.at(i) << " ";
         }
-        cout << "NULL" << endl;
     } else {
         cout << "There is no commit with this key." << endl;
     }
@@ -192,7 +196,7 @@ string MiniGit::commit(vector<string> messages,string msg) {
             while(tempFile != NULL){
                 if(!fs::exists(".minigit/"+tempFile->name+"_"+to_string(tempFile->version))) {
                     string line;
-                    ifstream readFile(tempFile->name);
+                    ifstream readFile("FilesGoHere/"+tempFile->name);
                     ofstream writeFile(".minigit/"+tempFile->name+"_"+to_string(tempFile->version));
                     if(readFile && writeFile){
                         while(getline(readFile,line))
@@ -257,14 +261,17 @@ void MiniGit::checkout(string commitID) {
     if (temp != NULL) {
         for (const auto & entry : fs::directory_iterator(fs::current_path())) {
             if (string(fs::current_path())+"/.minigit" != entry.path() && string(fs::current_path())+"/.ipynb_checkpoints" != entry.path()) {
-                fs::remove(entry.path());
+                fs::remove_all("FilesGoHere");
+                fs::create_directory("FilesGoHere");
             }
         }
         FileNode* tempFile = temp->fileHead;
         while(tempFile != NULL) {
             string line;
             ifstream readFile(".minigit/"+tempFile->name+"_"+to_string(tempFile->version));
-            ofstream writeFile(tempFile->name);
+            ofstream writeFile("FilesGoHere/"+tempFile->name);
+            cout << tempFile->name << endl;
+            //Leave me here for now.
             if (readFile && writeFile) {
                 while(getline(readFile,line)){
                     writeFile << line << "\n";
