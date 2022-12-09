@@ -14,8 +14,8 @@ namespace fs = std::filesystem;
 MiniGit::MiniGit() {
     fs::remove_all(".minigit");
     fs::create_directory(".minigit");
-    fs::remove_all("Dump");
-    fs::create_directory("Dump");
+    fs::remove_all("FilesGoHere");
+    fs::create_directory("FilesGoHere");
 }
 
 MiniGit::~MiniGit() {   
@@ -171,10 +171,11 @@ void MiniGit::printSearchTable() {
 void MiniGit::search(string key) {
     HashNode * temp = ht->searchItem(key);
     if (temp != NULL) {
-        cout << "Commit #s with key(" << key << ") are ";
+        cout << "Commit(s) with key (" << key << ") are: ";
         for(int i = 0; i < temp->commitNums.size(); i++) {
             cout << temp->commitNums.at(i) << " ";
         }
+        cout << endl;
     } else {
         cout << "There is no commit with this key." << endl;
     }
