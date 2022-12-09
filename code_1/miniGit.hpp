@@ -29,6 +29,8 @@ private:
     BranchNode* commitHead;
     int commits;
     HashTable* ht;
+    bool recentCommit = true;
+    //Added this one, not sure if it'll ruin everything
     
    
 
@@ -40,7 +42,8 @@ public:
     void add(string fileName);
     void rm(string fileName);
     void search(string key);
-    string commit(string msg);
+    string commit(vector<string> messages, string msg);
+    //editted, dunno if this is gonna blow up
     void checkout(string commitID);
     void printSearchTable();
     

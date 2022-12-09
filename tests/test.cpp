@@ -83,9 +83,98 @@ TEST_F(test_x, TestInsert){
     result = test_insert(commits, len, tabSize);
     
     expected = "0|| science(1,4,)\n1|| \n2|| \n3|| \n4|| difficult(3,)-->fun(2,)-->computer(0,)\n";
+    cout << "Result: " << endl << result << endl;
+    cout << "Expected: " << endl << expected << endl;
     
     ASSERT_EQ(expected, result);
-    add_points_to_grade(6);
+    add_points_to_grade(5);
+    
+    
+    len=1;
+    string commits1[] = {"testing"};
+    tabSize = 3;
+    
+    result = test_insert(commits1, len, tabSize);
+    
+    expected = "0|| \n1|| testing(0,)\n2|| \n";
+    cout << "Result: " << endl << result << endl;
+    cout << "Expected: " << endl << expected << endl;
+    
+    ASSERT_EQ(expected,result);
+    add_points_to_grade(5);
+    
+    len=0;
+    string commits2[] = {};
+    tabSize = 2;
+    
+    result = test_insert(commits2, len, tabSize);
+    
+    expected = "0|| \n1|| \n";
+    cout << "Result: " << endl << result << endl;
+    cout << "Expected: " << endl << expected << endl;
+    
+    ASSERT_EQ(expected,result);
+    add_points_to_grade(5);
+
+}
+
+//NOTES
+
+TEST_F(test_x, TestSearch){
+    
+    
+    string result;
+    string expected;
+    string key = "science";
+       
+    int len = 5;
+    
+    string commits[] = {"computer", "science", "fun", "difficult", "science"};
+    int tabSize = 5;
+    
+    result = test_search(commits, len, tabSize, key);
+    
+    expected = "1\n4\n";
+    cout << "Key: " << key << endl;
+    cout << "Print: " << endl << test_insert(commits, len, tabSize) << endl;
+    cout << "Result: " << endl << result << endl;
+    cout << "Expected: " << endl << expected << endl;
+    
+    ASSERT_EQ(expected, result);
+    add_points_to_grade(5);
+    
+    len = 10;
+    
+    key = "Gamma";
+    string commits1[] = {"Alpha","Bravo","Gamma","Delta","Epsilon","Zeta","Eta","Theta","Iota","Gamma"};
+    tabSize = 6;
+    
+    result = test_search(commits1, len, tabSize, key);
+    
+    expected = "2\n9\n";
+    cout << "Key: " << key << endl;
+    cout << "Print: " << endl << test_insert(commits1, len, tabSize) << endl;
+    cout << "Result: " << endl << result << endl;
+    cout << "Expected: " << endl << expected << endl;
+    
+    ASSERT_EQ(expected, result);
+    add_points_to_grade(5);
+    
+    len = 0;
+    key = "N/A";
+    string commits2[] = {};
+    tabSize = 3;
+    
+    result = test_search(commits2,len,tabSize,key);
+    
+    expected = "";
+    cout << "Key: " << key << endl;
+    cout << "Print: " << endl << test_insert(commits1, len, tabSize) << endl;
+    cout << "Result: " << endl << result << endl;
+    cout << "Expected: " << endl << expected << endl;
+    
+    ASSERT_EQ(expected, result);
+    add_points_to_grade(5);
 
 }
 
