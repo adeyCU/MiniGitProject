@@ -203,7 +203,7 @@ string MiniGit::commit(vector<string> messages,string msg) {
                         while(getline(readFile,line))
                             writeFile << line << "\n";
                     } else {
-                        cout << "error in opening files" << endl;
+                        cout << "File Opening Failed" << endl;
                     }
                 }
                 tempFile = tempFile->next;
