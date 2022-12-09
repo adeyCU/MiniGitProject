@@ -55,11 +55,7 @@ int main(int argc, char* argv[]) {
                 for (int i = 0; getline(ss, word, ' '); i++) {
                     messages.push_back(word);
                 }
-                if (messages.size() <= 3) {
-                    cout << minigit.commit(messages, commitMessage) << endl;
-                } else {
-                    cout << "MAXIMUM OF THREE WORDS" << endl;
-                }
+                cout << minigit.commit(messages, commitMessage) << endl;
                 break;
             }case 5:{
                 cout << "<:::> You are attempting to overwrite all files! YOU HAVE BEEN WARNED!!! <:::>" << endl;
