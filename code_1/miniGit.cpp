@@ -14,8 +14,8 @@ namespace fs = std::filesystem;
 MiniGit::MiniGit() {
     fs::remove_all(".minigit");
     fs::create_directory(".minigit");
-    fs::remove_all("Dump");
-    fs::create_directory("Dump");
+    fs::remove_all("FilesGoHere");
+    fs::create_directory("FilesGoHere");
 }
 
 MiniGit::~MiniGit() {   
